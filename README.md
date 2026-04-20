@@ -16,7 +16,7 @@ Most data engineering portfolios show pipelines built on CSV files and Jupyter n
 1. A guest opens the website on their phone or laptop
 2. They browse 3 villas, pick dates, enter their details, and confirm a booking
 3. That interaction creates clean, structured records across 4 PostgreSQL tables — atomically, with no possibility of double-booking
-4. The guest instantly receives a branded HTML confirmation email with full booking details
+4. The guest instantly receives a **branded HTML confirmation email** with full booking details
 5. The data is immediately queryable via SQL for revenue, occupancy, and guest analytics
 
 Every piece of this is deployed and running right now. You can make a booking and watch it appear in the database — and in your inbox.
@@ -102,7 +102,9 @@ Every confirmed booking triggers an automated HTML email to the guest containing
 - Total amount in Indian Rupees
 - Check-in instructions note
 
-Built with **Resend** — 3,000 free emails/month, lands in inbox not spam.
+Built with **Resend** — fires automatically after every successful booking transaction.
+
+> Note: Currently using Resend's sandbox mode which delivers to the registered address only. Production deployment would use a verified custom domain to send to all guests.
 
 ---
 
@@ -122,6 +124,8 @@ Four tables. Every design decision has a reason.
 **Price snapshotting** — `price_per_night` is stored at booking time. Revenue reports always reflect what guests actually paid, even if prices change later.
 
 **Separate inventory table** — A naive design would query bookings to check availability. The inventory table makes availability a simple `WHERE is_available = TRUE` lookup and enables maintenance blocks without touching bookings.
+
+**Non-blocking email** — The confirmation email fires after the transaction commits. If Resend is down, the booking still succeeds — the guest's data is safe. Email is a notification layer, not part of the core transaction.
 
 ---
 
@@ -182,15 +186,16 @@ ORDER BY occupancy_pct DESC;
 1. Open [villa-frontend.vercel.app](https://villa-frontend.vercel.app)
 2. Pick any villa and click on it
 3. Select check-in and check-out dates
-4. Add guests and fill in your details — use your real email
+4. Add guests and fill in your details
 5. Click Confirm Booking
 6. Your booking reference (e.g. `BK-20260420-0012`) is now live in the database
-7. Check your inbox — a confirmation email should arrive within seconds
+7. Check your inbox — a confirmation email arrives within seconds
 
 ---
 
 ## What's Next
 
+- Verify a custom domain on Resend to send confirmation emails to all guests
 - Deploy Metabase to Render for a publicly shareable analytics dashboard
 - Add a `/dashboard` page to the frontend showing live booking analytics
 - Migrate API from Railway to Render when trial ends (free forever)
