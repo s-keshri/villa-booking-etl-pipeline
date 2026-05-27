@@ -3,7 +3,7 @@
 > A full-stack data engineering project demonstrating a production-grade ETL pipeline where every guest interaction flows into a structured PostgreSQL database, queryable in real time.
 
 **Live Site** → [villa-frontend.vercel.app](https://villa-frontend.vercel.app)  
-**Live API** → [villa-api-production-f7b1.up.railway.app/docs](https://villa-api-production-f7b1.up.railway.app/docs)  
+**Live API** → [aureo-stays-api.onrender.com/docs](https://aureo-stays-api.onrender.com/docs)  
 **Backend Code** → [github.com/s-keshri/villa-api](https://github.com/s-keshri/villa-api)  
 **Frontend Code** → [github.com/s-keshri/villa-frontend](https://github.com/s-keshri/villa-frontend)
 
@@ -35,8 +35,8 @@ Every piece of this is deployed and running right now. You can make a booking an
                ▼
 ┌──────────────────────────────────────────┐
 │              BACKEND API                 │
-│  villa-api-production-f7b1.up.railway.app│
-│         FastAPI · Python 3.13            │
+│        aureo-stays-api.onrender.com      │
+│         FastAPI · Python 3.11            │
 │                                          │
 │  1. Validate availability                │
 │  2. Upsert guest record                  │
@@ -44,7 +44,7 @@ Every piece of this is deployed and running right now. You can make a booking an
 │  4. Block inventory dates                │
 │  5. Send confirmation email via Resend   │
 └──────────┬─────────────────┬─────────────┘
-           │ asyncpg (SQL)   │ Resend API
+           │ psycopg (SQL)   │ Resend API
            ▼                 ▼
 ┌──────────────────┐  ┌─────────────────────┐
 │    DATABASE      │  │   GUEST'S INBOX     │
@@ -165,8 +165,8 @@ ORDER BY occupancy_pct DESC;
 | Layer | Technology | Hosting |
 |---|---|---|
 | Frontend | Next.js 15, Tailwind CSS, TypeScript | Vercel (free) |
-| Backend | FastAPI, Python 3.13, Pydantic v2 | Railway |
-| Database | PostgreSQL 15, asyncpg | Supabase (free) |
+| Backend | FastAPI, Python 3.11, Pydantic v2 | Render |
+| Database | PostgreSQL 15, psycopg | Supabase (free) |
 | Email | Resend | Resend (3,000/month free) |
 | Analytics | Metabase | Local / Render |
 
@@ -198,7 +198,6 @@ ORDER BY occupancy_pct DESC;
 - Verify a custom domain on Resend to send confirmation emails to all guests
 - Deploy Metabase to Render for a publicly shareable analytics dashboard
 - Add a `/dashboard` page to the frontend showing live booking analytics
-- Migrate API from Railway to Render when trial ends (free forever)
 - Add more properties and real villa photos
 
 ---
